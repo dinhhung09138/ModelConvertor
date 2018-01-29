@@ -50,3 +50,9 @@ modules.order
 Module.symvers
 Mkfile.old
 dkms.conf
+
+SourceCode/ModelConverter/bin/Debug/Output/
+
+SourceCode/ModelConverter/bin/Debug/
+
+SourceCode/ModelConverter/obj/Debug/
