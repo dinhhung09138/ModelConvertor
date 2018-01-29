@@ -432,7 +432,11 @@ namespace ModelConverter
 
         public DataTable GetAllTable()
         {
-            string commandText = "SELECT TABLE_NAME FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_TYPE='BASE TABLE' ORDER BY TABLE_NAME";
+            //Only table
+            //"SELECT TABLE_NAME FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_TYPE='BASE TABLE' ORDER BY TABLE_NAME"
+            //Table and view
+            //"SELECT TABLE_NAME FROM INFORMATION_SCHEMA.TABLES ORDER BY TABLE_NAME"
+            string commandText = "SELECT TABLE_NAME FROM INFORMATION_SCHEMA.TABLES ORDER BY TABLE_NAME";
             DataTable returnTable = new DataTable();
             returnTable.Columns.Add(TableName.NAME, typeof(string));
             try
