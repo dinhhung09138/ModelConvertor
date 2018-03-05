@@ -119,8 +119,12 @@ namespace ModelConverter
                 switch (columnData[i][ColumnName.DataType].ToString().ToLower())
                 {
                     case "nvarchar":
+                    case "varchar":
                     case "nchar":
                         sb = this.WriteStringColumn(sb, columnData[i]);
+                        break;
+                    case "smallint":
+                        sb = this.WriteShortColumn(sb, columnData[i]);
                         break;
                     case "int":
                         sb = this.WriteIntColumn(sb, columnData[i]);
@@ -134,8 +138,6 @@ namespace ModelConverter
                         break;
                     case "bigint":
                         sb = this.WriteLongColumn(sb, columnData[i]);
-                        break;
-                    case "smallint":
                         break;
                     case "datetime":
                     case "timestamp":
@@ -181,6 +183,36 @@ namespace ModelConverter
 
             }
             sb.AppendLine("\t\tpublic string " + Utils.UppercaseWords(row[ColumnName.ColName].ToString(), '_') + " { get; set; } = \"" + Utils.GetDefaultStringValue(row[ColumnName.Default].ToString()) + "\";");
+            sb.AppendLine("\t\t");
+            return sb;
+        }
+
+        /// <summary>
+        /// Write int column
+        /// </summary>
+        /// <param name="sb"></param>
+        /// <param name="row">row data</param>
+        /// <returns></returns>
+        private StringBuilder WriteShortColumn(StringBuilder sb, DataRow row)
+        {
+            string valueTmp = Utils.GetDefaultStringValue(row[ColumnName.Default].ToString());
+            sb.AppendLine("\t\t");
+            sb.AppendLine("\t\t//<summary>");
+            sb.AppendLine("\t\t// " + Utils.UppercaseWords(row[ColumnName.ColName].ToString(), '_'));
+            sb.AppendLine("\t\t//<summary>");
+            sb.AppendLine("\t\t[Display(Name =\"\")]");
+            if (row[ColumnName.IsNull].ToString() == "NO")
+            {
+                sb.AppendLine("\t\t[Required(ErrorMessage = \"\")]");
+                sb.AppendLine("\t\t[DisplayFormat(DataFormatString = \"" + FORMAT_NUMBER + "\", ApplyFormatInEditMode  = true, NullDisplayText = \"0\")]");
+                sb.AppendLine("\t\tpublic short " + Utils.UppercaseWords(row[ColumnName.ColName].ToString(), '_') + " { get; set; } " + (valueTmp.Length > 0 ? " = " + valueTmp : "") + ";");
+            }
+            else
+            {
+                sb.AppendLine("\t\t[DisplayFormat(DataFormatString = \"" + FORMAT_NUMBER + "\", ApplyFormatInEditMode  = true, NullDisplayText = \"0\")]");
+                sb.AppendLine("\t\tpublic Nullable<short> " + Utils.UppercaseWords(row[ColumnName.ColName].ToString(), '_') + " { get; set; } " + (valueTmp.Length > 0 ? " = " + valueTmp : "") + ";");
+            }
+
             sb.AppendLine("\t\t");
             return sb;
         }
@@ -368,7 +400,7 @@ namespace ModelConverter
             {
                 sb.AppendLine("\t\t[Required(ErrorMessage = \"\")]");
             }
-            sb.AppendLine("\t\tpublic Boolean " + Utils.UppercaseWords(row[ColumnName.ColName].ToString(), '_') + " { get; set; } = \"" + (tmpValueDefault.Length > 0 && tmpValueDefault == "1" ? "true" : "false") + "\";");
+            sb.AppendLine("\t\tpublic Boolean " + Utils.UppercaseWords(row[ColumnName.ColName].ToString(), '_') + " { get; set; } = " + (tmpValueDefault.Length > 0 && tmpValueDefault == "1" ? "true" : "false") + ";");
             sb.AppendLine("\t\t");
             return sb;
         }
