@@ -204,12 +204,12 @@ namespace ModelConverter
             if (row[ColumnName.IsNull].ToString() == "NO")
             {
                 sb.AppendLine("\t\t[Required(ErrorMessage = \"\")]");
-                sb.AppendLine("\t\t[DisplayFormat(DataFormatString = \"{" + FORMAT_NUMBER + "}\", ApplyFormatInEditMode  = true, NullDisplayText = \"0\")]");
+                sb.AppendLine("\t\t[DisplayFormat(DataFormatString = \"{0:" + FORMAT_NUMBER + "}\", ApplyFormatInEditMode  = true, NullDisplayText = \"0\")]");
                 sb.AppendLine("\t\tpublic short " + Utils.UppercaseWords(row[ColumnName.ColName].ToString(), '_') + " { get; set; } " + (valueTmp.Length > 0 ? " = " + valueTmp : "") + ";");
             }
             else
             {
-                sb.AppendLine("\t\t[DisplayFormat(DataFormatString = \"{" + FORMAT_NUMBER + "}\", ApplyFormatInEditMode  = true, NullDisplayText = \"0\")]");
+                sb.AppendLine("\t\t[DisplayFormat(DataFormatString = \"{0:" + FORMAT_NUMBER + "}\", ApplyFormatInEditMode  = true, NullDisplayText = \"0\")]");
                 sb.AppendLine("\t\tpublic Nullable<short> " + Utils.UppercaseWords(row[ColumnName.ColName].ToString(), '_') + " { get; set; } " + (valueTmp.Length > 0 ? " = " + valueTmp : "") + ";");
             }
 
@@ -256,12 +256,12 @@ namespace ModelConverter
             if (row[ColumnName.IsNull].ToString() == "NO")
             {
                 sb.AppendLine("\t\t[Required(ErrorMessage = \"\")]");
-                sb.AppendLine("\t\t[DisplayFormat(DataFormatString = \"{" + FORMAT_NUMBER + "}\", ApplyFormatInEditMode  = true, NullDisplayText = \"0\")]");
+                sb.AppendLine("\t\t[DisplayFormat(DataFormatString = \"{0:" + FORMAT_NUMBER + "}\", ApplyFormatInEditMode  = true, NullDisplayText = \"0\")]");
                 sb.AppendLine("\t\tpublic int " + Utils.UppercaseWords(row[ColumnName.ColName].ToString(), '_') + " { get; set; } " + (valueTmp.Length > 0 ? " = " + valueTmp : "") + ";");
             }
             else
             {
-                sb.AppendLine("\t\t[DisplayFormat(DataFormatString = \"" + FORMAT_NUMBER + "\", ApplyFormatInEditMode  = true, NullDisplayText = \"0\")]");
+                sb.AppendLine("\t\t[DisplayFormat(DataFormatString = \"{0:" + FORMAT_NUMBER + "}\", ApplyFormatInEditMode  = true, NullDisplayText = \"0\")]");
                 sb.AppendLine("\t\tpublic Nullable<int> " + Utils.UppercaseWords(row[ColumnName.ColName].ToString(), '_') + " { get; set; } " + (valueTmp.Length > 0 ? " = " + valueTmp : "") + ";");
             }
 
@@ -311,12 +311,12 @@ namespace ModelConverter
             if (row[ColumnName.IsNull].ToString() == "NO")
             {
                 sb.AppendLine("\t\t[Required(ErrorMessage = \"\")]");
-                sb.AppendLine("\t\t[DisplayFormat(DataFormatString = \"{" + FORMAT_NUMBER + "}\", ApplyFormatInEditMode  = true, NullDisplayText = \"0\")]");
+                sb.AppendLine("\t\t[DisplayFormat(DataFormatString = \"{0:" + FORMAT_NUMBER + "}\", ApplyFormatInEditMode  = true, NullDisplayText = \"0\")]");
                 sb.AppendLine("\t\tpublic long " + Utils.UppercaseWords(row[ColumnName.ColName].ToString(), '_') + " { get; set; } " + (valueTmp.Length > 0 ? " = " + valueTmp : "") + ";");
             }
             else
             {
-                sb.AppendLine("\t\t[DisplayFormat(DataFormatString = \"" + FORMAT_NUMBER + "\", ApplyFormatInEditMode  = true, NullDisplayText = \"0\")]");
+                sb.AppendLine("\t\t[DisplayFormat(DataFormatString = \"{0:" + FORMAT_NUMBER + "}\", ApplyFormatInEditMode  = true, NullDisplayText = \"0\")]");
                 sb.AppendLine("\t\tpublic Nullable<long> " + Utils.UppercaseWords(row[ColumnName.ColName].ToString(), '_') + " { get; set; } " + (valueTmp.Length > 0 ? " = " + valueTmp : "") + ";");
             }
 
@@ -341,12 +341,12 @@ namespace ModelConverter
             if (row[ColumnName.IsNull].ToString() == "NO")
             {
                 sb.AppendLine("\t\t[Required(ErrorMessage = \"\")]");
-                sb.AppendLine("\t\t[DisplayFormat(DataFormatString = \"{" + FORMAT_NUMBER + "}\", ApplyFormatInEditMode  = true, NullDisplayText = \"0\")]");
+                sb.AppendLine("\t\t[DisplayFormat(DataFormatString = \"{0:" + FORMAT_NUMBER + "}\", ApplyFormatInEditMode  = true, NullDisplayText = \"0\")]");
                 sb.AppendLine("\t\tpublic float " + Utils.UppercaseWords(row[ColumnName.ColName].ToString(), '_') + " { get; set; } " + (valueTmp.Length > 0 ? " = " + valueTmp : "") + ";");
             }
             else
             {
-                sb.AppendLine("\t\t[DisplayFormat(DataFormatString = \"" + FORMAT_NUMBER + "\", ApplyFormatInEditMode  = true, NullDisplayText = \"0\")]");
+                sb.AppendLine("\t\t[DisplayFormat(DataFormatString = \"{0:" + FORMAT_NUMBER + "}\", ApplyFormatInEditMode  = true, NullDisplayText = \"0\")]");
                 sb.AppendLine("\t\tpublic Nullable<float> " + Utils.UppercaseWords(row[ColumnName.ColName].ToString(), '_') + " { get; set; } " + (valueTmp.Length > 0 ? " = " + valueTmp : "") + ";");
             }
 
@@ -370,12 +370,12 @@ namespace ModelConverter
             if (row[ColumnName.IsNull].ToString() == "NO")
             {
                 sb.AppendLine("\t\t[Required(ErrorMessage = \"\")]");
-                sb.AppendLine("\t\t[DisplayFormat(DataFormatString = \"{" + FORMAT_DATE + "}\", ApplyFormatInEditMode  = true)]");
+                sb.AppendLine("\t\t[DisplayFormat(DataFormatString = \"{0:" + FORMAT_DATE + "}\", ApplyFormatInEditMode  = true)]");
                 sb.AppendLine("\t\tpublic DateTime " + Utils.UppercaseWords(row[ColumnName.ColName].ToString(), '_') + " { get; set; } = DateTime.Now;");
             }
             else
             {
-                sb.AppendLine("\t\t[DisplayFormat(DataFormatString = \"" + FORMAT_DATE + "\", ApplyFormatInEditMode  = true)]");
+                sb.AppendLine("\t\t[DisplayFormat(DataFormatString = \"{0:" + FORMAT_DATE + "\", ApplyFormatInEditMode  = true)]");
                 sb.AppendLine("\t\tpublic Nullable<DateTime> " + Utils.UppercaseWords(row[ColumnName.ColName].ToString(), '_') + " { get; set; } = DateTime.Now;");
             }
             sb.AppendLine("\t\t");
