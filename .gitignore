@@ -56,3 +56,11 @@ SourceCode/ModelConverter/bin/Debug/Output/
 SourceCode/ModelConverter/bin/Debug/
 
 SourceCode/ModelConverter/obj/Debug/
+
+SourceCode/\.vs/ModelConverter/v15/sqlite3/db\.lock
+
+SourceCode/\.vs/ModelConverter/v15/Server/sqlite3/db\.lock
+
+SourceCode/\.vs/ModelConverter/v15/\.suo
+
+SourceCode/\.vs/ModelConverter/v15/Server/sqlite3/storage\.ide
