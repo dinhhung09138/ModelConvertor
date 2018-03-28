@@ -44,8 +44,8 @@ namespace ModelConverter.Excel
             //
             for (int i = 0; i < tbTable.Rows.Count; i++)
             {
-                var columnLits = db.GetColumnInfor(tbTable.Rows[i][TableName.NAME].ToString().ToUpper());
-                CreatSheetData(columnLits, tbTable.Rows[i][TableName.NAME].ToString().ToUpper(), i + 1);
+                var _columnList = db.GetColumnInfor(tbTable.Rows[i][TableName.NAME].ToString().ToUpper());
+                CreatSheetData(_columnList, tbTable.Rows[i][TableName.NAME].ToString().ToUpper(), i + 1);
             }
             SaveExcelFile();
             Console.WriteLine("Finish");
@@ -58,8 +58,11 @@ namespace ModelConverter.Excel
                 Console.WriteLine("Excel is not properly installed!!");
                 return false;
             }
-            xlWorkBook = xlApp.Workbooks.Add(missValue);
+            xlApp.StandardFont = "Arial";
+            xlApp.StandardFontSize = 9;
             
+            xlWorkBook = xlApp.Workbooks.Add(missValue);
+            xlWorkBook.Windows[1].Zoom = 80;
             Console.WriteLine("Check excel app success!!");
             return true;
         }
@@ -68,9 +71,36 @@ namespace ModelConverter.Excel
         {
             try
             {
-                Worksheet xlSheetPaper = CreateSheet("Tổng quan");
-                Worksheet xlSheetSummary = CreateSheet("Summary");
-                // xlWorkSheet.Cells[1, 1] = "Something";
+                Worksheet xlSheetPaper = CreateSheet("Trang bìa");
+                Worksheet _xlSheetSummary = CreateSheet("Summary");
+
+                #region " [ Summary ] "
+
+                _xlSheetSummary.Cells[3, 2] = "Danh sách bảng";
+                _xlSheetSummary.Range[_xlSheetSummary.Cells[3, 2], _xlSheetSummary.Cells[3, 5]].Merge();
+
+                int _row = 5;
+                _xlSheetSummary.Cells[_row, 2] = "Loại";
+                _xlSheetSummary.Columns[2].ColumnWidth = 20;
+                _xlSheetSummary.Cells[_row, 3] = "Tên logic";
+                _xlSheetSummary.Columns[3].ColumnWidth = 40;
+                _xlSheetSummary.Cells[_row, 4] = "Tên vật lý";
+                _xlSheetSummary.Columns[4].ColumnWidth = 30;
+                _xlSheetSummary.Cells[_row, 5] = "Mục đích";
+                _xlSheetSummary.Columns[5].ColumnWidth = 70;
+                //
+                ((Range)_xlSheetSummary.get_Range(string.Format("B{0}:E{1}", _row, _row + data.Rows.Count))).Cells.Borders.LineStyle = XlLineStyle.xlContinuous;
+
+                for (int i = 0; i < data.Rows.Count; i++)
+                {
+                    _xlSheetSummary.Cells[_row + i + 1, 2] = "";
+                    _xlSheetSummary.Cells[_row + i + 1, 3] = "";
+                    _xlSheetSummary.Cells[_row + i + 1, 4] = data.Rows[i][TableName.NAME];
+                    _xlSheetSummary.Cells[_row + i + 1, 5] = "";
+                }
+
+                #endregion
+
             }
             catch (Exception ex)
             {
@@ -87,14 +117,88 @@ namespace ModelConverter.Excel
 
         private void CreatSheetData(System.Data.DataTable data, string tableName, int sheetCount)
         {
-            Worksheet xlWorkSheet = null;
+            Worksheet _xlSheet = null;
             try
             {
                 sheetCount = xlWorkBook.Sheets.Count;
-                xlWorkSheet = xlWorkBook.Worksheets.Add(missValue, xlWorkBook.Worksheets[sheetCount], missValue, missValue);
-                //xlWorkSheet = lSheet.Add(lSheet[sheetCount], missValue, missValue, missValue);
-                xlWorkSheet.Name = tableName;
-               // xlWorkSheet.Cells[1, 1] = "Something";
+                _xlSheet = xlWorkBook.Worksheets.Add(missValue, xlWorkBook.Worksheets[sheetCount], missValue, missValue);
+                _xlSheet.Name = tableName;
+                
+                //
+                _xlSheet.Columns[2].ColumnWidth = 10;
+                _xlSheet.Columns[3].ColumnWidth = 20;
+                _xlSheet.Columns[4].ColumnWidth = 20;
+                _xlSheet.Columns[5].ColumnWidth = 12;
+                _xlSheet.Columns[6].ColumnWidth = 18;
+                _xlSheet.Columns[7].ColumnWidth = 12;
+                _xlSheet.Columns[8].ColumnWidth = 12;
+                _xlSheet.Columns[9].ColumnWidth = 12;
+                _xlSheet.Columns[10].ColumnWidth = 12;
+                _xlSheet.Columns[11].ColumnWidth = 20;
+                _xlSheet.Columns[12].ColumnWidth = 12;
+                _xlSheet.Columns[13].ColumnWidth = 30;
+                _xlSheet.Columns[14].ColumnWidth = 50;
+                //
+                _xlSheet.Cells[4, 2] = "Nhóm";
+                _xlSheet.Cells[5, 2] = "Tên vật lý";
+                _xlSheet.Cells[6, 2] = "Tên logic";
+                //
+                _xlSheet.Cells[4, 3] = "";
+                _xlSheet.Range[_xlSheet.Cells[4, 3], _xlSheet.Cells[4, 6]].Merge();
+                _xlSheet.Cells[5, 3] = tableName;
+                _xlSheet.Range[_xlSheet.Cells[5, 3], _xlSheet.Cells[5, 6]].Merge();
+                _xlSheet.Cells[6, 3] = "";
+                _xlSheet.Range[_xlSheet.Cells[6, 3], _xlSheet.Cells[6, 6]].Merge();
+                //
+                ((Range)_xlSheet.get_Range("B4:F6")).Cells.Borders.LineStyle = XlLineStyle.xlContinuous;
+                //
+                int _row = 8;
+                //
+                //((Range)_xlSheet.get_Range(string.Format("B{0}:N{1}", _row, _row))).Cells.Borders.LineStyle = XlLineStyle.xlContinuous;
+                // _xlSheet.get_Range(string.Format("B{0}:N{1}", _row, _row)).Style.HorizontalAlignment = XlHAlign.xlHAlignCenter;
+                ((Range)_xlSheet.get_Range(string.Format("B{0}:N{1}", _row, _row + data.Rows.Count))).Cells.Borders.LineStyle = XlLineStyle.xlContinuous;
+                _xlSheet.Cells[_row, 2] = "STT";
+                //_xlSheet.Cells[_row, 2].Style.HorizontalAlignment = XlHAlign.xlHAlignCenter;
+                _xlSheet.Cells[_row, 3] = "Column name";
+                //_xlSheet.Cells[_row, 3].Style.HorizontalAlignment = XlHAlign.xlHAlignCenter;
+                _xlSheet.Cells[_row, 4] = "Physical name";
+                //_xlSheet.Cells[_row, 4].Style.HorizontalAlignment = XlHAlign.xlHAlignCenter;
+                _xlSheet.Cells[_row, 5] = "Primary key";
+                //_xlSheet.Cells[_row, 5].Style.HorizontalAlignment = XlHAlign.xlHAlignCenter;
+                _xlSheet.Cells[_row, 6] = "Data type";
+                //_xlSheet.Cells[_row, 6].Style.HorizontalAlignment = XlHAlign.xlHAlignCenter;
+                _xlSheet.Cells[_row, 7] = "Data length";
+                //_xlSheet.Cells[_row, 7].Style.HorizontalAlignment = XlHAlign.xlHAlignCenter;
+                _xlSheet.Cells[_row, 8] = "Allow null";
+                //_xlSheet.Cells[_row, 8].Style.HorizontalAlignment = XlHAlign.xlHAlignCenter;
+                _xlSheet.Cells[_row, 9] = "Index";
+                //_xlSheet.Cells[_row, 9].Style.HorizontalAlignment = XlHAlign.xlHAlignCenter;
+                _xlSheet.Cells[_row, 10] = "Indentity";
+                //_xlSheet.Cells[_row, 10].Style.HorizontalAlignment = XlHAlign.xlHAlignCenter;
+                _xlSheet.Cells[_row, 11] = "Init value";
+                //_xlSheet.Cells[_row, 11].Style.HorizontalAlignment = XlHAlign.xlHAlignCenter;
+                _xlSheet.Cells[_row, 12] = "Unique";
+                //_xlSheet.Cells[_row, 12].Style.HorizontalAlignment = XlHAlign.xlHAlignCenter;
+                _xlSheet.Cells[_row, 13] = "Foreign key";
+                //_xlSheet.Cells[_row, 13].Style.HorizontalAlignment = XlHAlign.xlHAlignCenter;
+                _xlSheet.Cells[_row, 14] = "Memo";
+                //_xlSheet.Cells[_row, 14].Style.HorizontalAlignment = XlHAlign.xlHAlignCenter;
+                for (int i = 0; i < data.Rows.Count; i++)
+                {
+                    _xlSheet.Cells[_row + i + 1, 2] = (i + 1);
+                    _xlSheet.Cells[_row + i + 1, 3] = "";
+                    _xlSheet.Cells[_row + i + 1, 4] = data.Rows[i][ColumnName.ColName];
+                    _xlSheet.Cells[_row + i + 1, 5] = data.Rows[i][ColumnName.PrimaryKey];
+                    _xlSheet.Cells[_row + i + 1, 6] = data.Rows[i][ColumnName.DataType];
+                    _xlSheet.Cells[_row + i + 1, 7] = data.Rows[i][ColumnName.MaxLength];
+                    _xlSheet.Cells[_row + i + 1, 8] = data.Rows[i][ColumnName.IsNull];
+                    _xlSheet.Cells[_row + i + 1, 9] = ""; 
+                    _xlSheet.Cells[_row + i + 1, 10] = data.Rows[i][ColumnName.Identity];
+                    _xlSheet.Cells[_row + i + 1, 11] = data.Rows[i][ColumnName.Default];
+                    _xlSheet.Cells[_row + i + 1, 12] = data.Rows[i][ColumnName.Unique];
+                    _xlSheet.Cells[_row + i + 1, 13] = data.Rows[i][ColumnName.ForeignKey];
+                    _xlSheet.Cells[_row + i + 1, 14] = "";
+                }
             }
             catch (Exception ex)
             {
@@ -118,7 +222,7 @@ namespace ModelConverter.Excel
                     XlSaveAsAccessMode.xlExclusive, missValue, missValue, missValue, missValue, missValue);
                 xlWorkBook.Close(true, missValue, missValue);
                 xlApp.Quit();
-                
+                OpenExcelFile();
 
                 Console.WriteLine("Write file success");
             }
@@ -148,6 +252,26 @@ namespace ModelConverter.Excel
             xlSheet.Columns.AutoFit();
 
             return xlSheet;
+        }
+
+        private void OpenExcelFile()
+        {
+            try
+            {
+                FileInfo fi = new FileInfo(FILE_PATH);
+                if (fi.Exists)
+                {
+                    System.Diagnostics.Process.Start(FILE_PATH);
+                }
+                else
+                {
+                    //file doesn't exist
+                }
+            }
+            catch(Exception ex)
+            {
+                Console.Write(ex.Message);
+            }
         }
     }
 }

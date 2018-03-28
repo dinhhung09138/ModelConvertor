@@ -166,7 +166,7 @@ namespace ModelConverter
             commandText.AppendLine("                        WHERE   [TABLE_NAME] = '" + tableName + "' AND ");
             commandText.AppendLine("                                [COLUMN_NAME] = a.[COLUMN_NAME] ");
             commandText.AppendLine("                    ) > 0 ");
-            commandText.AppendLine("                THEN 'YES' ");
+            commandText.AppendLine("                THEN 'Y' ");
             commandText.AppendLine("                ELSE '' ");
             commandText.AppendLine("            END ");
             commandText.AppendLine("        ) AS [PRIMARY_KEY], ");
@@ -182,7 +182,7 @@ namespace ModelConverter
             commandText.AppendLine("        ( ");
             commandText.AppendLine("            CASE ");
             commandText.AppendLine("                WHEN a.[COLUMN_DEFAULT] IS NOT NULL ");
-            commandText.AppendLine("                    THEN REPLACE(REPLACE(a.[COLUMN_DEFAULT], N'(', ''), ')','') ");
+            commandText.AppendLine("                    THEN REPLACE(REPLACE(REPLACE(REPLACE(a.[COLUMN_DEFAULT], N'(', ''), ')',''), 'N''', ''), '''', '') ");
             commandText.AppendLine("                ELSE '' ");
             commandText.AppendLine("            END ");
             commandText.AppendLine("        ) AS [COLUMN_DEFAULT], ");
@@ -195,12 +195,24 @@ namespace ModelConverter
             commandText.AppendLine("                                                     AND sep.[name] = 'MS_Description' ");
             commandText.AppendLine("            WHERE	st.[name] = '" + tableName + "' AND ");
             commandText.AppendLine("                    sc.[name] = a.[COLLATION_NAME] ");
-            commandText.AppendLine("        ) AS [DESCRIPTION] ");
+            commandText.AppendLine("        ) AS [DESCRIPTION], ");
+            commandText.AppendLine("        '' AS [IDENTITY], ");
+            commandText.AppendLine("        '' AS [UNIQUE], ");
+            commandText.AppendLine("        '' AS [FOREIGN_KEY] ");
             commandText.AppendLine("FROM	INFORMATION_SCHEMA.COLUMNS a ");
             commandText.AppendLine("WHERE	a.[TABLE_NAME] = N'" + tableName + "' ");
             commandText.AppendLine("ORDER BY a.[ORDINAL_POSITION] ");
             DataTable returnTable = new DataTable();
-            returnTable.Columns.Add(TableName.NAME, typeof(string));
+            returnTable.Columns.Add(ColumnName.ColName, typeof(string));
+            returnTable.Columns.Add(ColumnName.PrimaryKey, typeof(string));
+            returnTable.Columns.Add(ColumnName.IsNull, typeof(string));
+            returnTable.Columns.Add(ColumnName.DataType, typeof(string));
+            returnTable.Columns.Add(ColumnName.MaxLength, typeof(string));
+            returnTable.Columns.Add(ColumnName.Default, typeof(string));
+            returnTable.Columns.Add(ColumnName.Description, typeof(string));
+            returnTable.Columns.Add(ColumnName.Identity, typeof(string));
+            returnTable.Columns.Add(ColumnName.Unique, typeof(string));
+            returnTable.Columns.Add(ColumnName.ForeignKey, typeof(string));
             try
             {
                 using (sqlConnect = new SqlConnection(CONNECTION_STRING))
@@ -215,6 +227,15 @@ namespace ModelConverter
                     {
                         DataRow r = returnTable.NewRow();
                         r[0] = reader[0];
+                        r[1] = reader[1];
+                        r[2] = reader[2];
+                        r[3] = reader[3];
+                        r[4] = reader[4];
+                        r[5] = reader[5];
+                        r[6] = reader[6];
+                        r[7] = reader[7];
+                        r[8] = reader[8];
+                        r[9] = reader[9];
                         returnTable.Rows.Add(r);
                     }
                     Console.WriteLine("Get list of column in table '" + tableName + "' success");
