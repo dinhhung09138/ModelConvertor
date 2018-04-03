@@ -18,11 +18,11 @@ namespace ModelConverter
             //ExportModel model = new ExportModel();
             //model.Execute();
             //
-            ExportExcel excel = new ExportExcel();
-            excel.Execute();
+            //ExportExcel excel = new ExportExcel();
+            //excel.Execute();
             //
-            //Execute exe = new Execute();
-            //exe.Mail();
+            Execute exe = new Execute();
+            exe.Mail();
         }
     }
     

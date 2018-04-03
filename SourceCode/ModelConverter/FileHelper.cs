@@ -23,7 +23,7 @@ namespace ModelConverter
                 {
                     File.Delete(filePath);
                 }
-                File.WriteAllText(filePath, content);
+                File.WriteAllText(filePath, content, Encoding.UTF8);
             }
             catch(Exception ex)
             {
@@ -43,7 +43,7 @@ namespace ModelConverter
                 {
                     File.Delete(filePath);
                 }
-                File.WriteAllText(filePath, content);
+                File.WriteAllText(filePath, content, Encoding.UTF8);
             }
             catch (Exception ex)
             {
