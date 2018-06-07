@@ -13,7 +13,7 @@ namespace ModelConverter.ObjectToXml
     public class Execute
     {
 
-        public void Mail()
+        public void Main()
         {
             string _filePath = Path.Combine(Environment.CurrentDirectory, "Employee.xml");
 
